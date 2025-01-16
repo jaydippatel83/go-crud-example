@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Golang Example real-time stream</title>
+</head>
+<body>
+    <h1>Golang Example real-time stream</h1>
+    <p id="events">Response data: </p> 
+
+    <script>
+        const eventSource = new EventSource("/events");
+        const events = document.getElementById("events");
+
+        eventSource.onmessage = function(event) {
+            events.innerHTML += event.data + "  ";
+        };
+
+        eventSource.onerror = function(event) {
+             setTimeout(function() {
+                eventSource.close(); 
+                events.innerHTML = "Reconnecting...";
+             }, 1000);
+        };
+    </script>
+</body>
+</html>
